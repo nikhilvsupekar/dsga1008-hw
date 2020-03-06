@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[math]{cellspace}
+\cellspacetoplimit 3pt
+\cellspacebottomlimit 3pt
+\setlength{\arraycolsep}{6pt}
+
+\title{DS-GA 1008 HW1 - Part 1}
+\author{Nikhil Supekar}
+
+\begin{document}
+
+\maketitle
+
+\section{Affine Module}
+
+\subsection{Question 1a)}
+
+
+\begin{align*}
+\textbf{\textbf{y}}= \textbf{W} \textbf{x} + \textbf{\textbf{b}} = \begin{pmatrix}{w_{11}} & {w_{12}} \\ {w_{21}} & {w_{22}}\end{pmatrix}\begin{pmatrix}{x_{1}} \\ {x_{2}}\end{pmatrix}+\begin{pmatrix}{b_{1}} \\ {b_{2}}\end{pmatrix}
+\end{align*}
+
+
+
+\begin{align*}
+\frac{\partial C}{\partial \textbf{W}}&=\begin{pmatrix}{\frac{\partial C}{\partial w_{11}}} & {\frac{\partial C}{\partial w_{12}}} \\ {\frac{\partial C}{\partial w_{21}}} & {\frac{\partial C}{\partial w_{22}}}\end{pmatrix} \\
+&= \begin{pmatrix}{\frac{\partial C}{\partial y_{1}} \cdot \frac{\partial y_{1}}{\partial w_{11}}+\frac{\partial C}{\partial y_{2}} \cdot \frac{\partial y_{2}}{\partial w_{11}}  & {\frac{\partial C}{\partial y_{1}} \cdot \frac{\partial y_{1}}{\partial w_{12}}+\frac{\partial C}{\partial y_{2}} \cdot \frac{\partial y_{2}}{\partial w_{12}}}} \\ {\frac{\partial C}{\partial y_{1}} \cdot \frac{\partial y_{1}}{\partial w_{21}}+\frac{\partial C}{\partial y_{2}} \frac{\partial y_{2}}{\partial w_{21}}} & {\frac{\partial C}{\partial y_{1}} \cdot \frac{\partial y_{1}}{\partial w_{22}}+\frac{\partial C}{\partial y_{2}} \cdot \frac{\partial y_{2}}{\partial w_{22}}} \end{pmatrix}\\
+&= \begin{pmatrix} {\frac{\partial C}{\partial y_{1}} \cdot x_{1}+\frac{\partial C}{\partial y_{2}} \cdot 0} & {\frac{\partial C}{\partial y_{1}} \cdot x_{2}+\frac{\partial C}{\partial y_{2}} \cdot 0} \\ {\frac{\partial C}{\partial y_{1}} \cdot 0+\frac{\partial C}{\partial y_{2}} \cdot x_{1}} & {\frac{\partial C}{\partial y_{1}} \cdot 0+\frac{\partial C}{\partial y_{2}} \cdot x_{2}} \end{pmatrix}\\
+&= \begin{pmatrix}{\frac{\partial C}{\partial y_{1}} x_{1}} & {\frac{\partial C}{\partial y_{1}} x_{2}} \\ {\frac{\partial C}{\partial y_{2}} x_{1}} & {\frac{\partial C}{\partial y_{2}} x_{2}}\end{pmatrix} \\
+&= \begin{pmatrix}{\frac{\partial C}{\partial y_{1}}} \\ {\frac{\partial C}{\partial y_{2}}}\end{pmatrix} \begin{pmatrix}{x_{1}} & {x_{2}}\end{pmatrix} \\
+& = \frac{\partial C}{\partial \textbf{\textbf{y}}} \textbf{x}^{\top}
+\end{align*}
+
+
+
+
+\begin{align*}
+\frac{\partial C}{\partial \textbf{b}}&=\begin{pmatrix}{\frac{\partial C}{\partial b_{1}}} & {\frac{\partial C}{\partial b_{2}}}\end{pmatrix}\\
+&=\begin{pmatrix} {\frac{\partial C}{\partial y_{1}} \frac{\partial y_{1}}{\partial b_{1}}+\frac{\partial C}{\partial y_{2}} \frac{\partial y_{2}}{\partial b_{1}}} & {\frac{\partial C}{\partial y_{1}} \cdot \frac{\partial y_{1}}{\partial b_{2}}+\frac{\partial C}{\partial y_{2}} \frac{\partial y_{2}}{\partial b_{2}}} \end{pmatrix} \\
+&=\begin{pmatrix} {\frac{\partial C}{\partial y_{1}} \cdot 1+\frac{\partial C}{\partial y_{2}} \cdot 0} & {\frac{\partial C}{\partial y_{1}} \cdot 0+\frac{\partial C}{\partial y_{2}} \cdot 1} \end{pmatrix} \\
+&=\begin{pmatrix}{\frac{\partial C}{\partial y_{1}}} & {\frac{\partial C}{\partial y_{2}}}\end{pmatrix}\\
+&=\left(\frac{\partial C}{\partial \textbf{y}}\right)^{\top}\\
+\end{align*}
+
+
+\subsection{Question 1b)}
+
+\begin{align*}
+\frac{\partial C_{2}}{\partial \textbf{W}}&=\begin{pmatrix}{\frac{\partial C_{2}}{\partial w_{11}}} & {\frac{\partial C_{2}}{\partial w_{12}}} \\ {\frac{\partial C_{2}}{\partial w_{21}}} & {\frac{\partial C_{2}}{\partial w_{22}}}\end{pmatrix}\\
+&=\begin{pmatrix}{3 \frac{\partial C}{\partial w_{11}}} & {3 \frac{\partial C}{\partial w_{12}}} \\ {3 \frac{\partial C}{\partial w_{21}}} & {3 \frac{\partial C}{\partial w_{22}}}\end{pmatrix}\\
+&=3\begin{pmatrix}{\frac{\partial C}{\partial w_{11}}} & {\frac{\partial C}{\partial w_{12}}} \\ {\frac{\partial C}{\partial w_{21}}} & {\frac{\partial C}{\partial w_{22}}}\end{pmatrix}\\
+&=3\frac{\partial C}{\partial \textbf{\textbf{y}}} \textbf{x}^{\top}\\
+\end{align*}
+
+\begin{align*}
+\begin{aligned} \frac{\partial C_{2}}{\partial b} &=\left(\frac{\partial C_{2}}{\partial b_{1}} \quad \frac{\partial C_{2}}{\partial b_{2}}\right) \\ &=3\begin{pmatrix}{\frac{\partial C}{\partial b_{1}}} & {\frac{\partial C}{\partial b_{2}}}\end{pmatrix} \\
+&=3\left(\frac{\partial C}{\partial \textbf{y}}\right)^{\top}\\
+\end{aligned} \\
+\end{align*}
+
+\section{Softmax Module}
+
+\subsection{Question 2}
+
+$$
+y_{i}&=\frac{\exp \left(\beta x_{i}\right)}{\sum_{n=1}^{K} \exp \left(\beta x_{n}\right)}\\
+$$
+
+\begin{align*}
+\frac{\partial y_{i}}{\partial x_{i}}&=\frac{\beta \exp \left(\beta x_{i}\right) \sum_{n=1}^{K} \exp \left(\beta x_{n}\right)-\beta \exp \left(\beta x_{i}\right) \exp \left(\beta x_{i}\right)}{\left(\sum_{n=1}^{K} \exp \left(\beta x_{n}\right)\right)^{2}}\\
+&=\beta \exp \left(\beta x_{i}\right) \frac{\sum_{n=1, n \neq i}^{K} \exp \left(\beta x_{n}\right)}{\left(\sum_{n=1}^{K} \exp \left(\beta x_{n}\right)\right)^{2}}\\\\
+\end{align*}
+\text{For }$i \neq j$\text{,}\\
+\begin{align*}
+\frac{\partial y_{i}}{\partial x_{j}}&=\frac{-\exp \left(\beta x_{i}\right)}{\left(\sum_{n=1}^{K} \exp \left(\beta x_{n}\right)\right)^{2}} \beta \exp \left(\beta x_{j}\right)\\
+&=\frac{-\beta \exp \left(\beta\left(x_{i}+x_{j}\right)\right)}{\left(\sum_{n=1}^{K} \exp \left(\beta x_{n}\right)\right)^{2}}\\
+\end{align*}
+
+\end{document}

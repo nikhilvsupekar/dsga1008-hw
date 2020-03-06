@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[math]{cellspace}
+\cellspacetoplimit 3pt
+\cellspacebottomlimit 3pt
+\setlength{\arraycolsep}{6pt}
+
+\title{DS-GA 1008 HW2 - Part 1}
+\author{Nikhil Supekar}
+
+\begin{document}
+
+\maketitle
+
+\section{Convolutions}
+
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+    \item 3 x 3
+    \item $\frac{I + 2P - K}{S} + 1$
+    \item $C=\left(\begin{array}{ccc}113 & 87 & 75 \\ 114 & 80 & 75 \\ 112 & 73 & 81\end{array}\right)$
+    \item Let $a_{i, j}$ denote the elements of the input image. \\
+    Let $b_{i, j}$ denote the elements of the filter of size 3 x 3. \\
+    Let $c_{i, j}$ denote the elements of the output. \\ \\
+    $$c_{i j}=\sum_{n=1}^{3} \sum_{m=1}^{3} a_{i+m-1, j+m-1} b_{m, n}$$ \\
+    $$ \frac{\partial c_{p q}}{\partial a_{i j}}&=\sum_{n=1}^{3} \sum_{m=1}^{3} b_{m, n} \frac{\partial a_{m+p-1, n+q-1}}{\partial a_{i, j}} $$\\
+    $$\frac{\partial a_{m+p-1, n+q-1}}{\partial a_{i, j}}=\left\{\begin{array}{ll}1 & \text{if} \quad m=i-p+1, n=j-q+1 \\ 0 & \text { otherwise }\end{array}\right.$$\\
+    $$\frac{\partial c_{p, q}}{\partial a_{i, j}}=b_{i-p+1, j-q+1}$$\\
+    
+    \begin{align}
+        \frac{\partial E}{\partial a_{i j}}&=\sum_{p=1}^{3} \sum_{q=1}^{3} \frac{\partial L}{\partial c_{p q}} \frac{\partial c_{p q}}{\partial a_{i j}} \\
+        &= \sum_{p=1}^{3} \sum_{q=1}^{3} 1 \cdot b_{i+1-p, j+1-q} \\
+        &= \sum_{u=1}^{3} \sum_{v=1}^{3} b_{(i+u-2)-1,(j+v-2)-1} \text{(By change of variable } u = 4 - p, v = 4 - q \text{)}\\
+    \end{align}
+    
+    Comparing with the convolution formula, we see that the backprop matrix for convolution input can itself be visualized as a convolution of the filter with a 0-padding of size 2 with a matrix of 1s. \\
+    
+    $$\frac{\partial E}{\partial A} = \left(\begin{array}{ccccccc}0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & b_{11} & b_{12} & b_{13} & 0 & 0 \\ 0 & 0 & b_{21} & b_{22} & b_{23} & 0 & 0 \\ 0 & 0 & b_{31} & b_{32} & b_{33} & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0\end{array}\right) \quad * \quad\left(\begin{array}{ccc}1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1\end{array}\right)$$
+\end{enumerate}
+
+
+\section{Pooling}
+
+\begin{enumerate}
+    \item 2D Pooling Modules
+    \begin{itemize}
+        \item MaxPool2d
+        \item AvgPool2d
+        \item LPPool2d
+    \end{itemize}
+    \item Pooling Expressions
+    \begin{itemize}
+        \item MaxPool2d: $Y_{i, j}^{k}=\max \left\{X_{a, b}^{k} |(a, b) \in S_{i, j}^{k}\right\}$
+        \item AvgPool2d: $Y_{i, j}^{k}=\frac{1}{\left|S_{i, j}^{k}\right|} \sum_{(a, b) \in S_{i, j}^{k}} X_{a, b}^{k}$
+        \item LPPool2d: $Y_{i, j}^{k}=\left(\sum_{(a, b) \in S_{i, j}^{k}}\left(X_{a, b}^{k}\right)^{p}\right)^{1 / p}$
+    \end{itemize}
+    \item $\left(\begin{array}{ll}114 & 87 \\ 114 & 81\end{array}\right)$
+    \item Let $L(X^k, S_{i, j}^k, p)$ denote the output of LP Pooling module with parameter p.
+    \begin{itemize}
+        \item MaxPool2d: $\lim _{p \rightarrow+\infty} L\left(X^{k}, X_{i, j}^{k}, p\right)$
+        \item AvgPool2d: $\frac{1}{\left|S_{i, j}^{k}\right|} L\left(X^{k}, S_{i j}^{k}, 1\right)$
+    \end{itemize}
+
+\end{enumerate}
+
+\end{document}
